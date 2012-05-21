@@ -63,6 +63,7 @@ virt-install --connect=qemu:///system \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --os-type linux \
     --hvm \
     --location=$location1 \
     --nographics 
@@ -82,6 +83,7 @@ virt-install --connect=qemu:///system \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --os-type linux \
     --hvm \
     --location=$location2 \
     --nographics 

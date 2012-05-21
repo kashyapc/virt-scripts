@@ -102,11 +102,12 @@ virt-install --connect=qemu:///system \
     --initrd-inject=./rhel.ks \
     --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200" \
     --name=$name \
-    --disk path=$diskimage,format=qcow2 \
+    --disk path=$diskimage,format=qcow2,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --os-type linux \
     --hvm \
     --location=$location1 \
     --nographics 
@@ -143,10 +144,12 @@ virt-install --connect=qemu:///system \
     --initrd-inject=./fed.ks \
     --extra-args="ks=file:/fed.ks console=tty0 console=ttyS0,115200 serial rd_NO_PLYMOUTH" \
     --name=$name \
-    --disk path=$diskimage,format=qcow2 \
+    --disk path=$diskimage,format=qcow2,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
+    --accelerate \
+    --os-type linux \
     --hvm \
     --location=$location2 \
     --nographics 
