@@ -56,14 +56,16 @@ if [ "$distro" = rhel6 ]; then
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
     --initrd-inject=/export/rhel.ks \
-    --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200" \
+    --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200mcache=none" \
     --name=$domname \
     --disk /export/vmimgs/$domname.img,size=20 \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --cpuset auto \
     --os-type linux \
+    --os-variant rhel6 \
     --hvm \
     --location=$location1 \
     --nographics 
@@ -71,19 +73,21 @@ virt-install --connect=qemu:///system \
 exit 255
 #########################################################################
 
-elif [ "$distro" = f15 ]; then
+elif [ "$distro" = f17 ]; then
 
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
     --initrd-inject=/export/fed-minimal.ks \
     --extra-args="ks=file:/fed-minimal.ks console=tty0 console=ttyS0,115200" \
     --name=$domname \
-    --disk /export/vmimgs/$domname.img,size=20 \
+    --disk /export/vmimgs/$domname.img,size=20,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --cpuset auto \
     --os-type linux \
+    --os-variant fedora16 \
     --hvm \
     --location=$location2 \
     --nographics 

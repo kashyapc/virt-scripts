@@ -107,7 +107,9 @@ virt-install --connect=qemu:///system \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
+    --cpuset auto \
     --os-type linux \
+    --os-variant rhel6 \
     --hvm \
     --location=$location1 \
     --nographics 
@@ -150,6 +152,8 @@ virt-install --connect=qemu:///system \
     --check-cpu \
     --accelerate \
     --os-type linux \
+    --os-variant fedora16 \
+    --cpuset auto \
     --hvm \
     --location=$location2 \
     --nographics 
