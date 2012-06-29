@@ -56,9 +56,9 @@ if [ "$distro" = rhel6 ]; then
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
     --initrd-inject=/export/rhel.ks \
-    --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200mcache=none" \
+    --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200" \
     --name=$domname \
-    --disk /export/vmimgs/$domname.img,size=20 \
+    --disk /export/vmimgs/$domname.img,size=20,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
