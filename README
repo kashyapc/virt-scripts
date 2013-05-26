@@ -1,0 +1,101 @@
+This directory contains simple virt scripts for daily use (mostly for a
+developer/test engineer):
+
+    - Create unattended RHEL/Fedora guests using virt-install
+      (RAW/QCOW2)
+    - Creating JEOS(Just Enough Operating System) with Oz.
+    - Simple guestfish script to do post install operations.
+    - Eventually try to add more cleaner scripts for other daily use
+      operations.
+      
+NOTE: To speed up you installs, please change the value of
+      location{1,2,3} to your nearest Fedora mirrors.
+
+
+Creating unattended guests
+==========================
+
+Using virt-install
+------------------
+
+To create (this uses virt-install) a minimal (@core only) 10G qcow
+disk, 2 vMEM, 2 vCPU, nightly RHEL-7 unattended guest (takes 5 min):
+
+    $ git clone \
+    https://github.com/kashyapc/virt-scripts.git
+
+    $ cd virt-scripts
+
+Assuming you want to create Fedora-18 :
+
+    $ ./create-guest-qcow2.bash f18-vm1 f18 x86_64
+
+Once finished, login using root (passwd: testpwd).
+
+
+Using Oz 
+--------
+
+If you want to use Oz (an automated guest install creator w/ minimal
+user input):
+
+
+    $ ./oz-create.bash 
+    Usage: ./oz-create.bash <guest-name> <distro>
+            'distro': f18, rhel6
+            Examples: oz-create.bash f18-t1 f18       # create f18
+                      oz-create.bash rhel6x-t1 rhel6  # create latest rhel6.x
+
+Successful stdout of install is noted here: ./oz/rhel63-tbox1.out.
+
+Once install is done, define the libvirt XML for the guest. Aassuming
+you gave the name of it as 'rhel63-tbox1':
+
+    $ virsh define rhel63-tbox1Feb_15_2013-15:29:50
+
+List all the guests
+
+    $ virsh list --all
+
+Start it
+
+    $ virsh start rhel63-tbox
+
+Connect to it via virt-viewer
+
+    $ virt-viewer rhel63-tbox
+
+
+Oz notes
+~~~~~~~~
+
+Oz uses something called TDL (template descriptive language). For example:
+
+     ./oz/rhel63_x86_64.tdl
+
+
+Contents of the above file:
+
+    -------------
+    <template>
+      <name>rhel63-tbox1</name>
+      <os>
+        <name>RHEL-6</name>
+        <version>3</version>
+        <arch>x86_64</arch>
+        <install type='url'>
+          <url>http://foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os</url>
+        </install>
+        <rootpw>redhat</rootpw>
+      </os>
+      <description>RHEL 6.3 </description>
+    </template>
+    --------------
+
+So, if you want to manuall try, you can dump the above contents into
+'rhel63.tdl' in the current directory, and do:
+
+    $ oz-install ./rhel63.tdl
+
+root password is defined in the TDL above.
+
