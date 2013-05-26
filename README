@@ -1,12 +1,12 @@
-This directory contains simple virt scripts for daily use (mostly for a
-developer/test engineer):
+Simple virt scripts for daily use (mostly for a developer/test
+engineer):
 
     - Create unattended RHEL/Fedora guests using virt-install
       (RAW/QCOW2)
     - Creating JEOS(Just Enough Operating System) with Oz.
     - Simple guestfish script to do post install operations.
-    - Eventually try to add more cleaner scripts for other daily use
-      operations.
+
+Eventually try to add more cleaner scripts.
       
 NOTE: To speed up you installs, please change the value of
       location{1,2,3} to your nearest Fedora mirrors.
