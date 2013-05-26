@@ -1,0 +1,14 @@
+<template>
+  <name>rhel63-tbox1</name>
+  <os>
+    <name>RHEL-6</name>
+    <version>3</version>
+    <arch>x86_64</arch>
+    <install type='url'>
+      <url>http://download.eng.pnq.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os</url>
+    </install>
+    <rootpw>redhat</rootpw>
+  </os>
+  <description>RHEL 6.3 </description>
+</template>
+

@@ -1,0 +1,171 @@
+DEBUG:oz.Guest.RHEL6Guest:libvirt bridge name is virbr0
+DEBUG:oz.Guest.RHEL6Guest:Libvirt type is kvm
+DEBUG:oz.Guest.RHEL6Guest:Original URL http://download.foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os resolved to http://download.eng.pnq.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os/
+DEBUG:oz.Guest.RHEL6Guest:Name: rhel63-tbox1, UUID: 45510fd5-3c10-47a4-a5a7-98545900688e
+DEBUG:oz.Guest.RHEL6Guest:MAC: 52:54:00:b7:6d:fd, distro: RHEL-6
+DEBUG:oz.Guest.RHEL6Guest:update: 3, arch: x86_64, diskimage: /var/lib/libvirt/images/rhel63-tbox1.dsk
+DEBUG:oz.Guest.RHEL6Guest:nicmodel: virtio, clockoffset: utc
+DEBUG:oz.Guest.RHEL6Guest:mousetype: ps2, disk_bus: virtio, disk_dev: vda
+DEBUG:oz.Guest.RHEL6Guest:icicletmp: /var/lib/oz/icicletmp/rhel63-tbox1, listen_port: 19127
+DEBUG:oz.Guest.RHEL6Guest:Original ISO path: /var/lib/oz/isos/RHEL-63x86_64-url.iso
+DEBUG:oz.Guest.RHEL6Guest:Modified ISO cache: /var/lib/oz/isos/RHEL-63x86_64-url-oz.iso
+DEBUG:oz.Guest.RHEL6Guest:Output ISO path: /var/lib/libvirt/images/rhel63-tbox1-url-oz.iso
+DEBUG:oz.Guest.RHEL6Guest:ISO content path: /var/lib/oz/isocontent/rhel63-tbox1-url
+INFO:oz.Guest.RHEL6Guest:Checking for guest conflicts with rhel63-tbox1
+DEBUG:oz.Guest.RHEL6Guest:Installtype is URL, trying to do direct kernel boot
+DEBUG:oz.Guest.RHEL6Guest:Going to write treeinfo to /var/lib/oz/icicletmp/rhel63-tbox1/treeinfo
+DEBUG:oz.Guest.RHEL6Guest:Trying to get treeinfo from http://download.foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os//.treeinfo
+DEBUG:oz.Guest.RHEL6Guest:Got treeinfo, parsing
+DEBUG:oz.Guest.RHEL6Guest:Returning kernel images/pxeboot/vmlinuz and initrd images/pxeboot/initrd.img
+INFO:oz.Guest.RHEL6Guest:Fetching the original media
+DEBUG:oz.Guest.RHEL6Guest:Attempting to get the lock for /var/lib/oz/kernels/RHEL-63x86_64-kernel
+DEBUG:oz.Guest.RHEL6Guest:Got the lock, doing the download
+INFO:oz.Guest.RHEL6Guest:Fetching the original install media from http://download.foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os/images/pxeboot/vmlinuz
+DEBUG:oz.Guest.RHEL6Guest:2kB of 3893kB
+DEBUG:oz.Guest.RHEL6Guest:3893kB of 3893kB
+DEBUG:oz.Guest.RHEL6Guest:3893kB of 3893kB
+DEBUG:oz.Guest.RHEL6Guest:3893kB of 3893kB
+INFO:oz.Guest.RHEL6Guest:Fetching the original media
+DEBUG:oz.Guest.RHEL6Guest:Attempting to get the lock for /var/lib/oz/kernels/RHEL-63x86_64-ramdisk
+DEBUG:oz.Guest.RHEL6Guest:Got the lock, doing the download
+INFO:oz.Guest.RHEL6Guest:Fetching the original install media from http://download.foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os/images/pxeboot/initrd.img
+DEBUG:oz.Guest.RHEL6Guest:2kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:10240kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:20480kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:29729kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:29729kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:29729kB of 29729kB
+DEBUG:oz.Guest.RHEL6Guest:Putting the kickstart in place
+DEBUG:oz.Guest.RHEL6Guest:Writing cpio to /var/lib/oz/icicletmp/rhel63-tbox1/extra.cpio
+INFO:oz.Guest.RHEL6Guest:Generating 10GB diskimage for rhel63-tbox1
+INFO:oz.Guest.RHEL6Guest:Running install for rhel63-tbox1
+INFO:oz.Guest.RHEL6Guest:Generate XML for guest rhel63-tbox1 with bootdev None
+DEBUG:oz.Guest.RHEL6Guest:Generated XML:
+<?xml version="1.0"?>
+<domain type="kvm">
+  <name>rhel63-tbox1</name>
+  <memory>1048576</memory>
+  <currentMemory>1048576</currentMemory>
+  <uuid>45510fd5-3c10-47a4-a5a7-98545900688e</uuid>
+  <clock offset="utc"/>
+  <vcpu>1</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <os>
+    <type>hvm</type>
+    <kernel>/var/lib/libvirt/images/rhel63-tbox1-kernel</kernel>
+    <initrd>/var/lib/libvirt/images/rhel63-tbox1-ramdisk</initrd>
+    <cmdline>method=http://download.foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os/ ks=file:/ks.cfg</cmdline>
+  </os>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <graphics port="-1" type="vnc"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:b7:6d:fd"/>
+      <model type="virtio"/>
+    </interface>
+    <input bus="ps2" type="mouse"/>
+    <console type="pty">
+      <target port="0"/>
+    </console>
+    <serial type="tcp">
+      <source mode="bind" host="127.0.0.1" service="19127"/>
+      <protocol type="raw"/>
+      <target port="1"/>
+    </serial>
+    <disk device="disk" type="file">
+      <target dev="vda" bus="virtio"/>
+      <source file="/var/lib/libvirt/images/rhel63-tbox1.dsk"/>
+    </disk>
+  </devices>
+</domain>
+
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1200/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1190/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1180/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1170/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1160/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1150/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1140/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1130/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1120/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1110/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1100/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1090/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1080/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1070/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1060/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1050/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1040/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1030/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1020/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1010/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 1000/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 990/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 980/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 970/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 960/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 950/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 940/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 930/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 920/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 910/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 900/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 890/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 880/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to finish installing, 870/1200
+DEBUG:oz.Guest.RHEL6Guest:Waiting for rhel63-tbox1 to complete shutdown, 10/10
+INFO:oz.Guest.RHEL6Guest:Install of rhel63-tbox1 succeeded
+INFO:oz.Guest.RHEL6Guest:Generate XML for guest rhel63-tbox1 with bootdev hd
+DEBUG:oz.Guest.RHEL6Guest:Generated XML:
+<?xml version="1.0"?>
+<domain type="kvm">
+  <name>rhel63-tbox1</name>
+  <memory>1048576</memory>
+  <currentMemory>1048576</currentMemory>
+  <uuid>45510fd5-3c10-47a4-a5a7-98545900688e</uuid>
+  <clock offset="utc"/>
+  <vcpu>1</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <os>
+    <type>hvm</type>
+    <boot dev="hd"/>
+  </os>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <graphics port="-1" type="vnc"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:b7:6d:fd"/>
+      <model type="virtio"/>
+    </interface>
+    <input bus="ps2" type="mouse"/>
+    <console type="pty">
+      <target port="0"/>
+    </console>
+    <serial type="tcp">
+      <source mode="bind" host="127.0.0.1" service="19127"/>
+      <protocol type="raw"/>
+      <target port="1"/>
+    </serial>
+    <disk device="disk" type="file">
+      <target dev="vda" bus="virtio"/>
+      <source file="/var/lib/libvirt/images/rhel63-tbox1.dsk"/>
+    </disk>
+  </devices>
+</domain>
+
+INFO:oz.Guest.RHEL6Guest:Cleaning up after install
+Libvirt XML was written to rhel63-tbox1Feb_15_2013-15:29:50

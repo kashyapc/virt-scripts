@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<domain type="kvm">
+  <name>rhel63-tbox1</name>
+  <memory>1048576</memory>
+  <currentMemory>1048576</currentMemory>
+  <uuid>45510fd5-3c10-47a4-a5a7-98545900688e</uuid>
+  <clock offset="utc"/>
+  <vcpu>1</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <os>
+    <type>hvm</type>
+    <boot dev="hd"/>
+  </os>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <graphics port="-1" type="vnc"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:b7:6d:fd"/>
+      <model type="virtio"/>
+    </interface>
+    <input bus="ps2" type="mouse"/>
+    <console type="pty">
+      <target port="0"/>
+    </console>
+    <serial type="tcp">
+      <source mode="bind" host="127.0.0.1" service="19127"/>
+      <protocol type="raw"/>
+      <target port="1"/>
+    </serial>
+    <disk device="disk" type="file">
+      <target dev="vda" bus="virtio"/>
+      <source file="/var/lib/libvirt/images/rhel63-tbox1.dsk"/>
+    </disk>
+  </devices>
+</domain>
