@@ -57,11 +57,18 @@ location1=http://foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.4/Server/$arch/os
 locatin2=http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/$arch/os/
 
 
-#create the image file
-#to enable raw disk format, uncomment the below line
-#vmimage=`qemu-img create -f raw /export/vmimgs/$domname.img 6G`
-#qcow2 format
-#vmimage=`qemu-img create -f qcow2 /export/vmimgs/$domname.qcow2 8G`
+#Disk Image location
+diskimage=/var/lib/libvirt/images/$name.qcow2
+#diskimage=/export/vmimgs2/$name.qcow2
+
+# Create the qcow2 disk image with preallocation and 'fallocate'(which
+# pre-allocates all the blocks to a file) it for max. performance
+
+echo "Creating qcow2 disk image.."
+qemu-img create -f qcow2 -o preallocation=metadata $diskimage 10G
+#fallocate -l `ls -al $diskimage | awk '{print $5}'` $diskimage
+echo `ls -lash $diskimage`
+
 
 echo "Creating domain $domname..." 
 echo "Image is here  $vmimage"
@@ -69,12 +76,35 @@ echo "Location of the OS sources $location..."
 
 
 if [ "$distro" = rhel6 ]; then
+#Create the minimal kickstart file for RHEL
+cat << EOF > rhel.ks
+install
+text
+reboot
+lang en_US.UTF-8
+keyboard us
+network --bootproto dhcp
+rootpw testpwd
+firewall --enabled --ssh
+selinux --enforcing
+timezone --utc America/New_York
+bootloader --location=mbr --append="console=tty0 console=ttyS0,115200 rd_NO_PLYMOUTH"
+zerombr
+key --skip
+clearpart --all --initlabel
+autopart
+
+%packages
+@core
+EOF
+
+# Create the guest
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
-    --initrd-inject=/export/rhel.ks \
+    --initrd-inject=./rhel.ks \
     --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200" \
     --name=$domname \
-    --disk /export/vmimgs/$domname.img,size=10,cache=none \
+    --disk /var/lib/libvirt/images/$domname.img,size=10,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
@@ -90,13 +120,35 @@ exit 255
 #########################################################################
 
 elif [ "$distro" = f18 ]; then
+#Create Minimal kickstart file for Fedora
+cat << EOF > fed.ks
+install
+text
+reboot
+lang en_US.UTF-8
+keyboard us
+network --bootproto dhcp
+rootpw testpwd
+firewall --enabled --ssh
+selinux --enforcing
+timezone --utc America/New_York
+bootloader --location=mbr --append="console=tty0 console=ttyS0,115200 rd_NO_PLYMOUTH"
+zerombr
+clearpart --all --initlabel
+autopart
 
+%packages
+@core
+%end
+EOF
+
+# Create the guest
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
-    --initrd-inject=/export/fed-minimal.ks \
-    --extra-args="ks=file:/fed-minimal.ks console=tty0 console=ttyS0,115200" \
+    --initrd-inject=./fed.ks \
+    --extra-args="ks=file:/fed.ks console=tty0 console=ttyS0,115200" \
     --name=$domname \
-    --disk /export/vmimgs/$domname.img,size=20,cache=none \
+    --disk /var/lib/libvirt/images/$domname.img,size=20,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
