@@ -1,5 +1,21 @@
 #!/bin/bash
-
+# 
+# Copyright (C) 2013 Red Hat Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#--------------------------------------------
 # Script to auto create/install unattended Virtual Machines (with bridging)
 # 1)Note: Bridging should be configured on the host to allow guests to be in the same subnet as hosts
 # 2)Creting a bridge, refer this: http://wiki.libvirt.org/page/Networking
@@ -37,8 +53,8 @@ domname=$1
 distro=$2
 arch=$3
 
-location1=http://foo.bar.com//rhel/released/RHEL-6/6.1/Server/$arch/os/
-location2=http://foo.bar.com/pub/fedora/linux/releases/15/Fedora/$arch/os/
+location1=http://foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.4/Server/$arch/os/
+locatin2=http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/$arch/os/
 
 
 #create the image file
@@ -58,7 +74,7 @@ virt-install --connect=qemu:///system \
     --initrd-inject=/export/rhel.ks \
     --extra-args="ks=file:/rhel.ks console=tty0 console=ttyS0,115200" \
     --name=$domname \
-    --disk /export/vmimgs/$domname.img,size=20,cache=none \
+    --disk /export/vmimgs/$domname.img,size=10,cache=none \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
@@ -73,7 +89,7 @@ virt-install --connect=qemu:///system \
 exit 255
 #########################################################################
 
-elif [ "$distro" = f17 ]; then
+elif [ "$distro" = f18 ]; then
 
 virt-install --connect=qemu:///system \
     --network=bridge:br0 \
@@ -87,9 +103,10 @@ virt-install --connect=qemu:///system \
     --accelerate \
     --cpuset auto \
     --os-type linux \
-    --os-variant fedora16 \
+    --os-variant fedora18 \
     --hvm \
     --location=$location2 \
     --nographics 
 
 fi
+
