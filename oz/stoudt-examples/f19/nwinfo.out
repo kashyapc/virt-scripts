@@ -1,0 +1,13 @@
+# /usr/bin/virsh net-destroy default
+Network default destroyed
+
+# /usr/bin/virsh net-start default
+Network default started
+
+# /usr/bin/virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+
+# cat /proc/sys/net/ipv4/ip_forward
+1
