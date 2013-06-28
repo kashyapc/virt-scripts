@@ -188,7 +188,7 @@ EOF
 
 # Run the VM
 virt-install --connect=qemu:///system \
-    --network=bridge:virbr0 \
+    --network=network:default \
     --initrd-inject=./fed.ks \
     --extra-args="ks=file:/fed.ks console=tty0 console=ttyS0,115200 serial rd_NO_PLYMOUTH" \
     --name=$name \
