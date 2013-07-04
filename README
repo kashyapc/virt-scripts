@@ -26,9 +26,9 @@ disk, 2 vMEM, 2 vCPU, nightly RHEL-7 unattended guest (takes 5 min):
 
     $ cd virt-scripts
 
-Assuming you want to create Fedora-18 :
+Assuming you want to create Fedora 19 :
 
-    $ ./create-guest-qcow2.bash f18-vm1 f18 x86_64
+    $ ./create-guest-qcow2.bash f19-jeos f19 x86_64
 
 Once finished, login using root (passwd: testpwd).
 
@@ -40,30 +40,33 @@ If you want to use Oz (an automated guest install creator w/ minimal
 user input):
 
 
-    $ ./oz-create.bash 
-    Usage: ./oz-create.bash <guest-name> <distro>
-            'distro': f18, rhel6
-            Examples: oz-create.bash f18-t1 f18       # create f18
-                      oz-create.bash rhel6x-t1 rhel6  # create latest rhel6.x
+    Usage: ./oz-jeos.bash <guest-name> <distro>
+            'distro': f19, f18, rhel6
+            Examples: oz-jeos.bash f19-jeos f19       # create f19
+                      oz-jeos.bash f18-jeos f18       # create f18
+                      oz-jeos.bash rhel6x-jeos rhel6  # create latest rhel6.x
 
-Successful stdout of install is noted here: ./oz/rhel63-tbox1.out.
+
+Successful stdout of install is noted here: stoudt-examples/f19/f19-jeosJul_04_2013-12
 
 Once install is done, define the libvirt XML for the guest. Aassuming
 you gave the name of it as 'rhel63-tbox1':
 
-    $ virsh define rhel63-tbox1Feb_15_2013-15:29:50
+    $ virsh define stoudt-examples/f19/f19-jeosJul_04_2013-12
 
 List all the guests
 
     $ virsh list --all
 
-Start it
+Start it and connect to the guest's serial console
 
-    $ virsh start rhel63-tbox
+    $ virsh start f19-jeos --console
+
+Or
 
 Connect to it via virt-viewer
 
-    $ virt-viewer rhel63-tbox
+    $ virt-viewer f19-jeos
 
 
 Oz notes
@@ -71,31 +74,34 @@ Oz notes
 
 Oz uses something called TDL (template descriptive language). For example:
 
-     ./oz/rhel63_x86_64.tdl
+     ./stdout-examples/f19/f19.tdl
 
 
 Contents of the above file:
 
     -------------
     <template>
-      <name>rhel63-tbox1</name>
+      <name>f19-jeos</name>
       <os>
-        <name>RHEL-6</name>
-        <version>3</version>
+        <name>Fedora</name>
+        <version>19</version>
         <arch>x86_64</arch>
         <install type='url'>
-          <url>http://foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.3/Server/x86_64/os</url>
+          <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/x86_64/os/<</url>
         </install>
-        <rootpw>redhat</rootpw>
+        <rootpw>testpwd</rootpw>
       </os>
-      <description>RHEL 6.3 </description>
+      <description>Fedora 19</description>
+      <disk>
+        <size>25</size>
+      </disk>
     </template>
     --------------
 
-So, if you want to manuall try, you can dump the above contents into
-'rhel63.tdl' in the current directory, and do:
+To invoke manually, dump the above contents into
+'f19.tdl' in the current directory, and do:
 
-    $ oz-install ./rhel63.tdl
+    $ oz-install ./f19.tdl
 
-root password is defined in the TDL above.
+root password is defined in the <rootpw> attribute of the TDL
 

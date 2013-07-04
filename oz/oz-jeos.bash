@@ -6,8 +6,8 @@
 # usage
 	if [ $# -ne 2 ]; then
 		echo "Usage: $0 <guest-name> <distro>
-        'distro': f18, rhel6
-        Examples: `basename $0` f18-jeos f19       # create f19
+        'distro': f19, f18, rhel6
+        Examples: `basename $0` f19-jeos f19       # create f19
                   `basename $0` f18-jeos f18       # create f18
                   `basename $0` rhel6x-jeos rhel6  # create latest rhel6.x"
 		exit 1

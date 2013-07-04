@@ -1,14 +1,17 @@
 <template>
-  <name>f19-jeos</name>
+  <name>devstack</name>
   <os>
     <name>Fedora</name>
     <version>19</version>
     <arch>x86_64</arch>
     <install type='url'>
-      <url>http://download.eng.pnq.redhat.com/pub/fedora/linux/development/19/x86_64/os/</url>
+      <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/x86_64/os/<</url>
     </install>
-    <rootpw>redhat</rootpw>
+    <rootpw>testpwd</rootpw>
   </os>
   <description>Fedora 19</description>
+  <disk>
+    <size>25</size>
+  </disk>
 </template>
 

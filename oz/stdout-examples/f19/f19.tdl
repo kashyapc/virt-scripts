@@ -1,5 +1,5 @@
 <template>
-  <name>devstack</name>
+  <name>f19-jeos</name>
   <os>
     <name>Fedora</name>
     <version>19</version>
@@ -7,7 +7,7 @@
     <install type='url'>
       <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/x86_64/os/<</url>
     </install>
-    <rootpw>redhat</rootpw>
+    <rootpw>testpwd</rootpw>
   </os>
   <description>Fedora 19</description>
   <disk>

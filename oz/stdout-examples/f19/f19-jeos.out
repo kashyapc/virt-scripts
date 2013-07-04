@@ -1,0 +1,145 @@
+DEBUG:oz.Guest.FedoraGuest:libvirt bridge name is virbr0
+DEBUG:oz.Guest.FedoraGuest:Libvirt type is kvm
+DEBUG:oz.Guest.FedoraGuest:Name: devstack, UUID: 9767ba25-429c-49af-9b6a-33b97caf8b0e
+DEBUG:oz.Guest.FedoraGuest:MAC: 52:54:00:ee:bd:07, distro: Fedora
+DEBUG:oz.Guest.FedoraGuest:update: 19, arch: x86_64, diskimage: /var/lib/libvirt/images/devstack.dsk
+DEBUG:oz.Guest.FedoraGuest:nicmodel: virtio, clockoffset: utc
+DEBUG:oz.Guest.FedoraGuest:mousetype: ps2, disk_bus: virtio, disk_dev: vda
+DEBUG:oz.Guest.FedoraGuest:icicletmp: /var/lib/oz/icicletmp/devstack, listen_port: 57585
+DEBUG:oz.Guest.FedoraGuest:Original ISO path: /var/lib/oz/isos/Fedora19x86_64-url.iso
+DEBUG:oz.Guest.FedoraGuest:Modified ISO cache: /var/lib/oz/isos/Fedora19x86_64-url-oz.iso
+DEBUG:oz.Guest.FedoraGuest:Output ISO path: /var/lib/libvirt/images/devstack-url-oz.iso
+DEBUG:oz.Guest.FedoraGuest:ISO content path: /var/lib/oz/isocontent/devstack-url
+INFO:oz.Guest.FedoraGuest:Checking for guest conflicts with devstack
+DEBUG:oz.Guest.FedoraGuest:Installtype is URL, trying to do direct kernel boot
+DEBUG:oz.Guest.FedoraGuest:Going to write treeinfo to /var/lib/oz/icicletmp/devstack/treeinfo
+DEBUG:oz.Guest.FedoraGuest:Trying to get treeinfo from http://dl.fedoraproject.org/pub/fedora/linux/releases/19/Fedora/x86_64/os//.treeinfo
+DEBUG:oz.Guest.FedoraGuest:Got treeinfo, parsing
+DEBUG:oz.Guest.FedoraGuest:Returning kernel images/pxeboot/vmlinuz and initrd images/pxeboot/initrd.img
+INFO:oz.Guest.FedoraGuest:Fetching the original media
+DEBUG:oz.Guest.FedoraGuest:Attempting to get the lock for /var/lib/oz/kernels/Fedora19x86_64-kernel
+DEBUG:oz.Guest.FedoraGuest:Got the lock, doing the download
+INFO:oz.Guest.FedoraGuest:Original install media available, using cached version
+INFO:oz.Guest.FedoraGuest:Fetching the original media
+DEBUG:oz.Guest.FedoraGuest:Attempting to get the lock for /var/lib/oz/kernels/Fedora19x86_64-ramdisk
+DEBUG:oz.Guest.FedoraGuest:Got the lock, doing the download
+INFO:oz.Guest.FedoraGuest:Original install media available, using cached version
+DEBUG:oz.Guest.FedoraGuest:Putting the kickstart in place
+DEBUG:oz.Guest.FedoraGuest:Writing cpio to /var/lib/oz/icicletmp/devstack/extra.cpio
+INFO:oz.Guest.FedoraGuest:Generating 25GB diskimage for devstack
+INFO:oz.Guest.FedoraGuest:Running install for devstack
+INFO:oz.Guest.FedoraGuest:Generate XML for guest devstack with bootdev None
+DEBUG:oz.Guest.FedoraGuest:Generated XML:
+<?xml version="1.0"?>
+<domain type="kvm">
+  <name>devstack</name>
+  <memory>1048576</memory>
+  <currentMemory>1048576</currentMemory>
+  <uuid>9767ba25-429c-49af-9b6a-33b97caf8b0e</uuid>
+  <clock offset="utc"/>
+  <vcpu>1</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <os>
+    <type>hvm</type>
+    <kernel>/var/lib/libvirt/images/devstack-kernel</kernel>
+    <initrd>/var/lib/libvirt/images/devstack-ramdisk</initrd>
+    <cmdline>method=http://dl.fedoraproject.org/pub/fedora/linux/releases/19/Fedora/x86_64/os/ ks=file:/ks.cfg</cmdline>
+  </os>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <graphics port="-1" type="vnc"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:ee:bd:07"/>
+      <model type="virtio"/>
+    </interface>
+    <input bus="ps2" type="mouse"/>
+    <serial type="pty">
+      <target port="0"/>
+    </serial>
+    <serial type="tcp">
+      <source mode="bind" host="127.0.0.1" service="57585"/>
+      <protocol type="raw"/>
+      <target port="1"/>
+    </serial>
+    <disk device="disk" type="file">
+      <target dev="vda" bus="virtio"/>
+      <source file="/var/lib/libvirt/images/devstack.dsk"/>
+      <driver name="qemu" type="raw"/>
+    </disk>
+  </devices>
+</domain>
+
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1200/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1190/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1180/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1170/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1160/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1150/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1140/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1130/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1120/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1110/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1100/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1090/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1080/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1070/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1060/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1050/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to finish installing, 1040/1200
+DEBUG:oz.Guest.FedoraGuest:Waiting for devstack to complete shutdown, 10/10
+INFO:oz.Guest.FedoraGuest:Install of devstack succeeded
+INFO:oz.Guest.FedoraGuest:Generate XML for guest devstack with bootdev hd
+DEBUG:oz.Guest.FedoraGuest:Generated XML:
+<?xml version="1.0"?>
+<domain type="kvm">
+  <name>devstack</name>
+  <memory>1048576</memory>
+  <currentMemory>1048576</currentMemory>
+  <uuid>9767ba25-429c-49af-9b6a-33b97caf8b0e</uuid>
+  <clock offset="utc"/>
+  <vcpu>1</vcpu>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <os>
+    <type>hvm</type>
+    <boot dev="hd"/>
+  </os>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <graphics port="-1" type="vnc"/>
+    <interface type="bridge">
+      <source bridge="virbr0"/>
+      <mac address="52:54:00:ee:bd:07"/>
+      <model type="virtio"/>
+    </interface>
+    <input bus="ps2" type="mouse"/>
+    <serial type="pty">
+      <target port="0"/>
+    </serial>
+    <serial type="tcp">
+      <source mode="bind" host="127.0.0.1" service="57585"/>
+      <protocol type="raw"/>
+      <target port="1"/>
+    </serial>
+    <disk device="disk" type="file">
+      <target dev="vda" bus="virtio"/>
+      <source file="/var/lib/libvirt/images/devstack.dsk"/>
+      <driver name="qemu" type="raw"/>
+    </disk>
+  </devices>
+</domain>
+
+INFO:oz.Guest.FedoraGuest:Cleaning up after install
+Libvirt XML was written to devstackJul_04_2013-12:42:32
