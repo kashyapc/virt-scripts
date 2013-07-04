@@ -7,8 +7,9 @@
 	if [ $# -ne 2 ]; then
 		echo "Usage: $0 <guest-name> <distro>
         'distro': f18, rhel6
-        Examples: `basename $0` f18-t1 f18       # create f18
-                  `basename $0` rhel6x-t1 rhel6  # create latest rhel6.x"
+        Examples: `basename $0` f18-jeos f19       # create f19
+                  `basename $0` f18-jeos f18       # create f18
+                  `basename $0` rhel6x-jeos rhel6  # create latest rhel6.x"
 		exit 1
 	fi
 
@@ -89,7 +90,27 @@ cat << EOF > $TDLFILE
   </os>
   <description>Fedora 18</description>
 </template>
+EOF
+}
 
+
+elif [ "$distro" = f19 ]; then
+
+function _make_tdl_fed()  {
+cat << EOF > $TDLFILE
+<template>
+  <name>$NAME</name>
+  <os>
+    <name>Fedora</name>
+    <version>18</version>
+    <arch>x86_64</arch>
+    <install type='url'>
+      <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/19/Fedora/x86_64/os/</url>
+    </install>
+    <rootpw>redhat</rootpw>
+  </os>
+  <description>Fedora 18</description>
+</template>
 EOF
 }
 
