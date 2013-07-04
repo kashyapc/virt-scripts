@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <domain type="kvm">
-  <name>f19-jeos</name>
+  <name>devstack</name>
   <memory>1048576</memory>
   <currentMemory>1048576</currentMemory>
-  <uuid>e0e515f1-dc51-487d-be9f-20d8d604ace7</uuid>
+  <uuid>9767ba25-429c-49af-9b6a-33b97caf8b0e</uuid>
   <clock offset="utc"/>
   <vcpu>1</vcpu>
   <features>
@@ -22,7 +22,7 @@
     <graphics port="-1" type="vnc"/>
     <interface type="bridge">
       <source bridge="virbr0"/>
-      <mac address="52:54:00:09:10:40"/>
+      <mac address="52:54:00:ee:bd:07"/>
       <model type="virtio"/>
     </interface>
     <input bus="ps2" type="mouse"/>
@@ -30,13 +30,13 @@
       <target port="0"/>
     </serial>
     <serial type="tcp">
-      <source mode="bind" host="127.0.0.1" service="31979"/>
+      <source mode="bind" host="127.0.0.1" service="57585"/>
       <protocol type="raw"/>
       <target port="1"/>
     </serial>
     <disk device="disk" type="file">
       <target dev="vda" bus="virtio"/>
-      <source file="/var/lib/libvirt/images/f19-jeos.dsk"/>
+      <source file="/var/lib/libvirt/images/devstack.dsk"/>
       <driver name="qemu" type="raw"/>
     </disk>
   </devices>
