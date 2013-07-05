@@ -119,7 +119,7 @@ virt-install --connect=qemu:///system \
 exit 255
 #########################################################################
 
-elif [ "$distro" = f18 ]; then
+elif [ "$distro" = f19 ]; then
 #Create Minimal kickstart file for Fedora
 cat << EOF > fed.ks
 install

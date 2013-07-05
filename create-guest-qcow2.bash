@@ -36,8 +36,8 @@ if [ "$#" != 3 ]; then
 	echo ""
 	echo " usage: "$0 name distro arch" "
 	echo ""
-        echo "     where 'name'= f18vm1 [OR] el7vm2"
-        echo "     where 'distro' = rhel7 [OR] rhel6 [OR] f18"
+        echo "     where 'name'= f19vm1 [OR] el7vm2"
+        echo "     where 'distro' = rhel7 [OR] rhel6 [OR] f19"
         echo "     where 'arch'   = x86_64 [OR] i386"
 	echo ""
 	exit 255
@@ -56,7 +56,7 @@ arch=$3
 
 location1=http://foo.bar.redhat.com/pub/rhel/nightly/latest-RHEL-7/compose/Server/x86_64/os/
 location2=http://foo.bar.redhat.com/pub/rhel/released/RHEL-6/6.4/Server/$arch/os
-locatin3=http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/$arch/os/
+location3=http://dl.fedoraproject.org/pub/fedora/linux/releases/19/Fedora/$arch/os/
 
 echo "Creating domain $name..." 
 echo "Disk image will be created as  /var/lib/libvirt/images/$name.qcow2"
@@ -163,7 +163,7 @@ exit 255
 #########################################################################
 
 
-elif [ "$distro" = f18 ]; then
+elif [ "$distro" = f19 ]; then
 #Create Minimal kickstart file for Fedora
 cat << EOF > fed.ks
 install
