@@ -47,10 +47,17 @@ user input):
                       oz-jeos.bash rhel6x-jeos rhel6  # create latest rhel6.x
 
 
-Successful stdout of install is noted here: stoudt-examples/f19/f19-jeosJul_04_2013-12
+Successful stdout of install is noted here:
+stoudt-examples/f19/f19-jeosJul_04_2013-12
 
-Once install is done, define the libvirt XML for the guest. Aassuming
-you gave the name of it as 'rhel63-tbox1':
+
+Create an F19 guest:
+
+    $ ./oz-jeos.bash f19-jeos f19
+
+Once install is done, define the libvirt XML for the guest (in this case
+- 'f19-jeos'):
+  
 
     $ virsh define stoudt-examples/f19/f19-jeosJul_04_2013-12
 
@@ -72,7 +79,8 @@ Connect to it via virt-viewer
 Oz notes
 ~~~~~~~~
 
-Oz uses something called TDL (template descriptive language). For example:
+Oz uses something called TDL (template descriptive language). For
+example:
 
      ./stdout-examples/f19/f19.tdl
 
