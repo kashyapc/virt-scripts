@@ -1,9 +1,8 @@
 #!/bin/bash
-
-#set -x
-
+#
 # Copyright (C) 2014 Red Hat Inc.
-# Author <kchamart@redhat.com>
+# Author: <kashyap@redhat.com>
+# Further contributions: <pjp@fedoraproject.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,16 +28,17 @@
 # 4 Also adds a serial console
 #
 
+#set -x
 
+VERSION="0.1"
+prog=`basename $0`
+
+fstype="ext4"
 IMAGE_HOME="/var/lib/libvirt/images"
 
 burl="http://dl.fedoraproject.org/pub"
 location1="$burl/fedora/linux/releases/19/Fedora/ARCH/os"
 location2="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
-
-
-# External F20 mirror
-# http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Fedora/x86_64/
 
 
 # Create a minimal kickstart file and return the temporary file name.
@@ -63,7 +63,7 @@ timezone --utc America/New_York
 bootloader --location=mbr --append="console=tty0 console=ttyS0,115200 rd_NO_PLYMOUTH"
 zerombr
 clearpart --all --initlabel
-autopart
+autopart --type=$fstype
 
 %packages
 @core
@@ -89,7 +89,7 @@ create_guest()
     # (which pre-allocates all the blocks to a file) it for maximum
     # performance.
     #
-    #   fallocate -l `ls -al $diskimage | awk '{print $5}'` $diskimage
+    # fallocate -l `ls -al $diskimage | awk '{print $5}'` $diskimage
     #
     echo "Creating qcow2 disk image..."
     qemu-img create -f qcow2 -o preallocation=metadata $dimg 10G
@@ -117,17 +117,67 @@ create_guest()
     return 0
 }
 
+usage ()
+{
+    echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch>\n"
+    echo "  distro: f19 f20"
+    echo "    arch: i386, x86_64"
+}
+
+printh ()
+{
+    format="%-15s %s\n"
+
+    usage;
+    printf "\n%s\n\n" "OPTIONS:"
+    printf "$format" "  -f <FSTYPE>" "specify file system type, default: ext4"
+    printf "$format" "  -h" "display this help"
+    printf "$format" "  -v" "display version information"
+    printf "\nReport bugs to Kashyap <kashyap@redhat.com>\n"
+}
+
+check_options ()
+{
+    while getopts ":+f:hv" arg "$@";
+    do
+        case $arg in
+            :)
+            printf "$prog: missing argument\n"
+            exit 0
+            ;;
+
+            f)
+            fstype=$OPTARG
+            ;;
+
+            h)
+            printh
+            exit 0
+            ;;
+
+            v)
+            printf "%s version %s\n" $prog $VERSION
+            exit 0
+            ;;
+
+            *)
+            printf "%s: invalid option\n" $prog
+            exit 255
+        esac
+    done
+
+    return $(($OPTIND - 1));
+}
+
 # main
 {
+    check_options $@;
+    shift $?;
+
     # check if min no. of arguments are 3
     #
     if [ "$#" != 3 ]; then
-        echo -e "Usage: $0 vm-name distro arch\n"
-        echo -e "\tdistro: f19 f20"
-        echo -e "\t  arch: i386, x86_64
-        e.g. ./`basename $0` f20vm1 f20 x86_64         # create fedora 20 VM
-             ./`basename $0` f19vm1 f19 x86_64         # create fedora f19 VM"
-
+        printh;
         exit 255
     fi
 
@@ -148,19 +198,19 @@ create_guest()
     locn=""
     case "$dist" in
         f19)
-            dist="fedora19"
-            locn=${location1/ARCH/$arch}
-            ;;
+        dist="fedora19"
+        locn=${location1/ARCH/$arch}
+        ;;
 
         f20)
-            dist="fedora20"
-            locn=${location2/ARCH/$arch}
-            ;;
+        dist="fedora20"
+        locn=${location2/ARCH/$arch}
+        ;;
 
 
-            *)
-            echo "$0: invalid distribution name"
-            exit 255
+        *)
+        echo "$0: invalid distribution name"
+        exit 255
     esac
     create_guest $name $arch $dist $locn $dimg
 
