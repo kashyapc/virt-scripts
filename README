@@ -1,8 +1,7 @@
 Simple virt scripts for daily use (mostly for a developer/test
 engineer):
 
-    - Create unattended RHEL/Fedora guests using virt-install
-      (RAW/QCOW2)
+    - Create unattended Fedora guests using virt-install (RAW/QCOW2)
     - Creating JEOS(Just Enough Operating System) with Oz.
     - Simple guestfish script to do post install operations.
 
@@ -41,10 +40,8 @@ user input):
 
 
     Usage: ./oz-jeos.bash <guest-name> <distro>
-            'distro': f19, f18, rhel6
+            'distro': f20, f19
             Examples: oz-jeos.bash f19-jeos f19       # create f19
-                      oz-jeos.bash f18-jeos f18       # create f18
-                      oz-jeos.bash rhel6x-jeos rhel6  # create latest rhel6.x
 
 
 Successful stdout of install is noted here:
