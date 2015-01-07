@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2014 Red Hat Inc.
+# Copyright (C) 2015 Red Hat Inc.
 # Author: <kashyap@redhat.com>
 # Further contributions: <pjp@fedoraproject.org>
 #
@@ -37,8 +37,8 @@ fstype="ext4"
 IMAGE_HOME="/var/lib/libvirt/images"
 
 burl="http://dl.fedoraproject.org/pub"
-location1="$burl/fedora/linux/releases/19/Fedora/ARCH/os"
-location2="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
+location1="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
+location2="$burl/fedora/linux/releases/21/Fedora/ARCH/os"
 
 
 # Create a minimal kickstart file and return the temporary file name.
@@ -100,18 +100,17 @@ create_guest()
     --initrd-inject=$bnam \
     --extra-args="ks=file:/$bnam console=tty0 console=ttyS0,115200" \
     --name=$name \
-    --disk path=$dimg,format=qcow2,cache=none \
+    --disk path=$dimg,format=qcow2,cache=writeback \
     --ram 2048 \
     --vcpus=2 \
     --check-cpu \
     --accelerate \
-    --cpuset auto \
     --os-type linux \
     --os-variant $dist \
     --hvm \
     --location=$locn \
     --nographics \
-    --console=pty
+    --serial=pty
 
     rm $fkst
     return 0
@@ -120,7 +119,7 @@ create_guest()
 usage ()
 {
     echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch>\n"
-    echo "  distro: f19 f20"
+    echo "  distro: f20 f21"
     echo "    arch: i386, x86_64"
 }
 
@@ -197,13 +196,13 @@ check_options ()
 
     locn=""
     case "$dist" in
-        f19)
-        dist="fedora19"
+        f20)
+        dist="fedora20"
         locn=${location1/ARCH/$arch}
         ;;
 
-        f20)
-        dist="fedora20"
+        f21)
+        dist="fedora21"
         locn=${location2/ARCH/$arch}
         ;;
 
