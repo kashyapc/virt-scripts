@@ -26,7 +26,7 @@
 #    - References:
 #       - http://wiki.libvirt.org/page/Networking
 #       - https://kashyapc.fedorapeople.org/virt/configuring-bridging-f19+.txt
-# - The kickstart file contains minimal fedora pkgs (@core)
+# - The kickstart file contains minimal Fedora packages (@core)
 # - This script also provides a serial console
 
 
@@ -40,7 +40,7 @@ IMAGE_HOME="/var/lib/libvirt/images"
 
 burl="http://dl.fedoraproject.org/pub"
 location1="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
-location2="$burl/fedora/linux/releases/21/Fedora/ARCH/os"
+location2="$burl/fedora/linux/releases/21/Server/ARCH/os"
 
 
 # Create a minimal kickstart file and return the temporary file name.
@@ -98,7 +98,7 @@ create_guest()
     echo `ls -lash $dimg`
 
     virt-install --connect=qemu:///system \
-    --network=bridge:virbr0 \
+    --network=network:default \
     --initrd-inject=$bnam \
     --extra-args="ks=file:/$bnam console=tty0 console=ttyS0,115200" \
     --name=$name \
