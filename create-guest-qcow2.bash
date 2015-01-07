@@ -18,15 +18,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+#
+# Purpose: Script to create/install a virtual machine (qcow2 disk)
+#
+# - If you need linux bridging, it should be configured on the host to
+#   allow guests to be in the same subnet as hosts
+#    - References:
+#       - http://wiki.libvirt.org/page/Networking
+#       - https://kashyapc.fedorapeople.org/virt/configuring-bridging-f19+.txt
+# - The kickstart file contains minimal fedora pkgs (@core)
+# - This script also provides a serial console
 
-# Script to create/install unattended Virtual Machines (with bridging)
-#
-# 1 Note: Bridging should be configured on the host to allow guests to be
-#   in the same subnet as hosts
-# 2 Creting a bridge, refer this: http://wiki.libvirt.org/page/Networking
-# 3 The kickstart file contains minimal fedora pkgs like core and text internet
-# 4 Also adds a serial console
-#
 
 #set -x
 
