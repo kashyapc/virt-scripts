@@ -8,7 +8,7 @@ engineer):
 Eventually try to add more cleaner scripts.
       
 NOTE: To speed up you installs, please change the value of
-      location{1,2,3} to your nearest Fedora mirrors.
+      location{1,2} to your nearest Fedora mirrors.
 
 
 Creating unattended guests
@@ -17,17 +17,17 @@ Creating unattended guests
 Using virt-install
 ------------------
 
-To create (this uses virt-install) a minimal (@core only) 10G qcow
-disk, 2 vMEM, 2 vCPU, nightly RHEL-7 unattended guest (takes 5 min):
+To create (this uses `virt-install`) a minimal (@core only) 10G qcow2
+disk, 2 vMEM, 2 vCPU, unattended Fedora:
 
     $ git clone \
     https://github.com/kashyapc/virt-scripts.git
 
     $ cd virt-scripts
 
-Assuming you want to create Fedora 19 :
+Assuming you want to create a Fedora 21 guest:
 
-    $ ./create-guest-qcow2.bash f19-jeos f19 x86_64
+    $ ./create-guest-qcow2.bash f21-jeos f21 x86_64
 
 Once finished, login using root (passwd: testpwd).
 
@@ -40,37 +40,32 @@ user input):
 
 
     Usage: ./oz-jeos.bash <guest-name> <distro>
-            'distro': f20, f19
-            Examples: oz-jeos.bash f19-jeos f19       # create f19
+            'distro': f20, f21
+            Examples: oz-jeos.bash f21-jeos f21       # Create f21
 
 
-Successful stdout of install is noted here:
-stoudt-examples/f19/f19-jeosJul_04_2013-12
+Create a Fedora 21 guest:
 
+    $ ./oz-jeos.bash f21-jeos f21
 
-Create an F19 guest:
+Once installation is finished, define the libvirt XML for the guest (in
+this case 'f21-jeos'):
 
-    $ ./oz-jeos.bash f19-jeos f19
+    $ virsh define $libvirt-XML-FROM-PREVIOUS-COMMAND
 
-Once install is done, define the libvirt XML for the guest (in this case
-- 'f19-jeos'):
-  
-
-    $ virsh define stoudt-examples/f19/f19-jeosJul_04_2013-12
-
-List all the guests
+List all the guests:
 
     $ virsh list --all
 
-Start it and connect to the guest's serial console
+Start it and connect to the guest's serial console:
 
-    $ virsh start f19-jeos --console
+    $ virsh start 21-jeos --console
 
 Or
 
-Connect to it via virt-viewer
+Connect to it via virt-viewer:
 
-    $ virt-viewer f19-jeos
+    $ virt-viewer f21-jeos
 
 
 Oz notes
@@ -79,34 +74,34 @@ Oz notes
 Oz uses something called TDL (template descriptive language). For
 example:
 
-     ./stdout-examples/f19/f19.tdl
+     ./stdout-examples/f21/f21.tdl
 
 
 Contents of the above file:
 
     -------------
     <template>
-      <name>f19-jeos</name>
+      <name>f21-jeos</name>
       <os>
         <name>Fedora</name>
-        <version>19</version>
+        <version>21</version>
         <arch>x86_64</arch>
         <install type='url'>
-          <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/18/Fedora/x86_64/os/<</url>
+          <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/21/Fedora/x86_64/os/<</url>
         </install>
         <rootpw>testpwd</rootpw>
       </os>
-      <description>Fedora 19</description>
+      <description>Fedora 21</description>
       <disk>
-        <size>25</size>
+        <size>10</size>
       </disk>
     </template>
     --------------
 
 To invoke manually, dump the above contents into
-'f19.tdl' in the current directory, and do:
+'f21.tdl' in the current directory, and do:
 
-    $ oz-install ./f19.tdl
+    $ oz-install ./f21.tdl
 
 root password is defined in the <rootpw> attribute of the TDL
 
