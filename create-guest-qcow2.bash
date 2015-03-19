@@ -41,7 +41,8 @@ IMAGE_HOME="/var/lib/libvirt/images"
 burl="http://dl.fedoraproject.org/pub"
 location1="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
 location2="$burl/fedora/linux/releases/21/Server/ARCH/os"
-
+location3="$burl/fedora/linux/development/22/ARCH/os"
+location4="$burl/fedora/linux/development/rawhide/ARCH/os"
 
 # Create a minimal kickstart file and return the temporary file name.
 # Do remember to delete this temporary file when it is no longer required.
@@ -54,7 +55,7 @@ create_ks_file()
     cat << EOF > $fkstart
 install
 text
-reboot
+shutdown
 lang en_US.UTF-8
 keyboard us
 network --bootproto dhcp
@@ -112,7 +113,8 @@ create_guest()
     --hvm \
     --location=$locn \
     --nographics \
-    --serial=pty
+    --serial=pty\
+    --noreboot
 
     rm $fkst
     return 0
@@ -120,9 +122,10 @@ create_guest()
 
 usage ()
 {
-    echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch>\n"
-    echo "  distro: f20 f21"
++ echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch> [destination directory]\n"
++ echo " distro: f20 f21 f22 fraw or http os source like: http://.../pub/fedora/linux/development/latest-22/x86_64/os/"
     echo "    arch: i386, x86_64"
+    echo "    destination directory: directory, where to store image instead of default one"
 }
 
 printh ()
@@ -177,7 +180,7 @@ check_options ()
 
     # check if min no. of arguments are 3
     #
-    if [ "$#" != 3 ]; then
+    if [ "$#" -lt 3 ]; then
         printh;
         exit 255
     fi
@@ -194,6 +197,8 @@ check_options ()
     name=$1
     dist=$2
     arch=$3
+    destdir=$4
+    test -n "$destdir" && IMAGE_HOME="$destdir"
     dimg="$IMAGE_HOME/$name.qcow2"
 
     locn=""
@@ -207,7 +212,22 @@ check_options ()
         dist="fedora21"
         locn=${location2/ARCH/$arch}
         ;;
+        
+        f22)
+        dist="fedora21"
+        locn=${location3/ARCH/$arch}
+        ;;
 
+        fraw)
+        dist="fedora21"
+        locn=${location4/ARCH/$arch}
+        ;;
+
+        http*)
+        locn=${dist/ARCH/$arch}
+        echo "RAW version: $locn"
+        dist="fedora21"
+        ;;
 
         *)
         echo "$0: invalid distribution name"
