@@ -27,22 +27,21 @@
 #       - http://wiki.libvirt.org/page/Networking
 #       - https://kashyapc.fedorapeople.org/virt/configuring-bridging-f19+.txt
 # - The kickstart file contains minimal Fedora packages (@core)
-# - This script also provides a serial console
+# - This script also provides access to serial console to the VM
 
 
 #set -x
 
-VERSION="0.1"
+VERSION="0.2"
 prog=`basename $0`
 
 fstype="ext4"
 IMAGE_HOME="/var/lib/libvirt/images"
 
 burl="http://dl.fedoraproject.org/pub"
-location1="$burl/fedora/linux/releases/20/Fedora/ARCH/os"
-location2="$burl/fedora/linux/releases/21/Server/ARCH/os"
-location3="$burl/fedora/linux/development/22/ARCH/os"
-location4="$burl/fedora/linux/development/rawhide/ARCH/os"
+location1="$burl/fedora/linux/releases/21/Server/ARCH/os"
+location2="$burl/fedora/linux/releases/22/Server/ARCH/os"
+location3="$burl/fedora/linux/development/rawhide/ARCH/os"
 
 # Create a minimal kickstart file and return the temporary file name.
 # Do remember to delete this temporary file when it is no longer required.
@@ -122,10 +121,24 @@ create_guest()
 
 usage ()
 {
-+ echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch> [destination directory]\n"
-+ echo " distro: f20 f21 f22 fraw or http os source like: http://.../pub/fedora/linux/development/latest-22/x86_64/os/"
-    echo "    arch: i386, x86_64"
-    echo "    destination directory: directory, where to store image instead of default one"
+ echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch> [dest-dir]\n"
+
+echo "distro   : f21, f22, rawhide,
+           [Or, path to HTTP URL, like]: http://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/x86_64/os/"
+echo "arch     : x86_64, i386"
+echo "dest-dir : /path/dest-dir [Optional: Alternate directory to store images,
+           assuming QEMU has access to it, i.e. 'chmod go+rx /path/dest-dir']
+
+EXAMPLES:
+
+  # Create a Fedora 22 VM:
+  ./`basename $0` vm1 f22 x86_64
+
+  # Create a Fedora-22 VM, and store the VM disk image in the said dir:
+  ./`basename $0` vm2 f22 x86_64 /export/vmimages
+
+  # Create a Fedora-22 VM, with the specified Fedora tree URL:
+  ./`basename $0` vm3 http://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/x86_64/os/ x86_64"
 }
 
 printh ()
@@ -203,24 +216,19 @@ check_options ()
 
     locn=""
     case "$dist" in
-        f20)
-        dist="fedora20"
-        locn=${location1/ARCH/$arch}
-        ;;
-
         f21)
         dist="fedora21"
-        locn=${location2/ARCH/$arch}
+        locn=${location1/ARCH/$arch}
         ;;
         
         f22)
         dist="fedora21"
-        locn=${location3/ARCH/$arch}
+        locn=${location2/ARCH/$arch}
         ;;
 
-        fraw)
+        rawhide)
         dist="fedora21"
-        locn=${location4/ARCH/$arch}
+        locn=${location3/ARCH/$arch}
         ;;
 
         http*)
