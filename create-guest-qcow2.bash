@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Copyright (C) 2015 Red Hat Inc.
-# Author: <kashyap@redhat.com>
-# Further contributions: <pjp@fedoraproject.org>
+# Copyright (C) 2016 Red Hat Inc.
+# Author: Kashyap Chamarthy <kashyap@redhat.com>
+# Further contributions: Prasad J. Pandit <pjp@fedoraproject.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,15 +32,15 @@
 
 #set -x
 
-VERSION="0.2"
+VERSION="0.3"
 prog=`basename $0`
 
 fstype="ext4"
 IMAGE_HOME="/var/lib/libvirt/images"
 
 burl="http://dl.fedoraproject.org/pub"
-location1="$burl/fedora/linux/releases/21/Server/ARCH/os"
-location2="$burl/fedora/linux/releases/22/Server/ARCH/os"
+location1="$burl/fedora/linux/releases/22/Server/ARCH/os"
+location2="$burl/fedora/linux/releases/23/Server/ARCH/os"
 location3="$burl/fedora/linux/development/rawhide/ARCH/os"
 
 # Create a minimal kickstart file and return the temporary file name.
@@ -123,7 +123,7 @@ usage ()
 {
  echo -e "Usage: $prog [OPTIONS] <vm-name> <distro> <arch> [dest-dir]\n"
 
-echo "distro   : f21, f22, rawhide,
+echo "distro   : f22, f23, rawhide,
            [Or, path to HTTP URL, like]: http://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/x86_64/os/"
 echo "arch     : x86_64, i386"
 echo "dest-dir : /path/dest-dir [Optional: Alternate directory to store images,
@@ -131,13 +131,13 @@ echo "dest-dir : /path/dest-dir [Optional: Alternate directory to store images,
 
 EXAMPLES:
 
-  # Create a Fedora 22 VM:
-  ./`basename $0` vm1 f22 x86_64
+  # Create a Fedora-23 VM:
+  ./`basename $0` vm1 f23 x86_64
 
-  # Create a Fedora-22 VM, and store the VM disk image in the said dir:
-  ./`basename $0` vm2 f22 x86_64 /export/vmimages
+  # Create a Fedora-23 VM, and store the VM disk image in the said dir:
+  ./`basename $0` vm2 f23 x86_64 /export/vmimages
 
-  # Create a Fedora-22 VM, with the specified Fedora tree URL:
+  # Create a Fedora-23 VM, with the specified Fedora tree URL:
   ./`basename $0` vm3 http://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/x86_64/os/ x86_64"
 }
 
@@ -150,7 +150,8 @@ printh ()
     printf "$format" "  -f <FSTYPE>" "specify file system type, default: ext4"
     printf "$format" "  -h" "display this help"
     printf "$format" "  -v" "display version information"
-    printf "\nReport bugs to Kashyap <kashyap@redhat.com>\n"
+    printf "\nReport bugs here:
+    https://github.com/kashyapc/virt-scripts/issues\n"
 }
 
 check_options ()
@@ -216,25 +217,25 @@ check_options ()
 
     locn=""
     case "$dist" in
-        f21)
-        dist="fedora21"
+        f22)
+        dist="fedora22"
         locn=${location1/ARCH/$arch}
         ;;
         
-        f22)
-        dist="fedora21"
+        f23)
+        dist="fedora23"
         locn=${location2/ARCH/$arch}
         ;;
 
         rawhide)
-        dist="fedora21"
+        dist="fedora23"
         locn=${location3/ARCH/$arch}
         ;;
 
         http*)
         locn=${dist/ARCH/$arch}
         echo "RAW version: $locn"
-        dist="fedora21"
+        dist="fedora23"
         ;;
 
         *)
