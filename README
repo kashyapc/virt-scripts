@@ -25,9 +25,9 @@ disk, 2 vMEM, 2 vCPU, unattended Fedora:
 
     $ cd virt-scripts
 
-Assuming you want to create a Fedora 21 guest:
+Assuming you want to create a Fedora 23 guest:
 
-    $ ./create-guest-qcow2.bash f21-jeos f21 x86_64
+    $ ./create-guest-qcow2.bash f23-jeos f23 x86_64
 
 Once finished, login using root (passwd: testpwd).
 
@@ -40,16 +40,16 @@ user input):
 
 
     Usage: ./oz-jeos.bash <guest-name> <distro>
-            'distro': f20, f21
-            Examples: oz-jeos.bash f21-jeos f21       # Create f21
+            'distro': f20, f23
+            Examples: oz-jeos.bash f23-jeos f23       # Create f23
 
 
-Create a Fedora 21 guest:
+Create a Fedora 23 guest:
 
-    $ ./oz-jeos.bash f21-jeos f21
+    $ ./oz-jeos.bash f23-jeos f23
 
 Once installation is finished, define the libvirt XML for the guest (in
-this case 'f21-jeos'):
+this case 'f23-jeos'):
 
     $ virsh define $libvirt-XML-FROM-PREVIOUS-COMMAND
 
@@ -59,13 +59,13 @@ List all the guests:
 
 Start it and connect to the guest's serial console:
 
-    $ virsh start 21-jeos --console
+    $ virsh start f23-jeos --console
 
 Or
 
 Connect to it via virt-viewer:
 
-    $ virt-viewer f21-jeos
+    $ virt-viewer f23-jeos
 
 
 Oz notes
@@ -74,24 +74,24 @@ Oz notes
 Oz uses something called TDL (template descriptive language). For
 example:
 
-     ./stdout-examples/f21/f21.tdl
+     ./stdout-examples/f23/f23.tdl
 
 
 Contents of the above file:
 
     -------------
     <template>
-      <name>f21-jeos</name>
+      <name>f23-jeos</name>
       <os>
         <name>Fedora</name>
-        <version>21</version>
+        <version>23</version>
         <arch>x86_64</arch>
         <install type='url'>
-          <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/21/Fedora/x86_64/os/<</url>
+          <url>http://dl.fedoraproject.org/pub/fedora/linux/releases/23/Server/x86_64/os/</url>
         </install>
         <rootpw>testpwd</rootpw>
       </os>
-      <description>Fedora 21</description>
+      <description>Fedora 23</description>
       <disk>
         <size>10</size>
       </disk>
@@ -99,9 +99,9 @@ Contents of the above file:
     --------------
 
 To invoke manually, dump the above contents into
-'f21.tdl' in the current directory, and do:
+'f23.tdl' in the current directory, and do:
 
-    $ oz-install ./f21.tdl
+    $ oz-install ./f23.tdl
 
-root password is defined in the <rootpw> attribute of the TDL
+Root password is defined in the <rootpw> attribute of the TDL.
 
